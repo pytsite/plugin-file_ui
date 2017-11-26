@@ -1,0 +1,29 @@
+{
+  "name": "file_ui",
+  "version": "1.0",
+  "description": {
+    "en": "File UI",
+    "ru": "File UI",
+    "uk": "File UI"
+  },
+  "url": "https://github.com/pytsite/plugin-file_ui",
+  "author": {
+    "name": "Alexander Shepetko",
+    "email": "a@shepetko.com",
+    "url": "https://shepetko.com"
+  },
+  "requires": {
+    "packages": [],
+    "plugins": [
+      "assetman",
+      "auth",
+      "file",
+      "font_awesome",
+      "js_load_image",
+      "jquery",
+      "jquery_ui",
+      "http_api",
+      "widget"
+    ]
+  }
+}

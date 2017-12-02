@@ -22,8 +22,8 @@ def _init():
     assetman.t_js(__name__ + '@**')
     assetman.js_module('file_ui-widget-files-upload', __name__ + '@js/widget-files-upload')
 
-    http_api.handle('POST', 'file', _http_api_controllers.Post(), 'file_ui@post')
-    http_api.handle('GET', 'file/<uid>', _http_api_controllers.Get(), 'file_ui@get')
+    http_api.handle('POST', 'file', _http_api_controllers.Post, 'file_ui@post')
+    http_api.handle('GET', 'file/<uid>', _http_api_controllers.Get, 'file_ui@get')
 
 
 _init()

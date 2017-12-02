@@ -18,11 +18,11 @@ class Post(_routing.Controller):
         if _auth.get_current_user().is_anonymous:
             raise self.forbidden()
 
-        if not self.files:
+        if not self.request.files:
             raise RuntimeError('No files received')
 
         r = []
-        for field_name, f in self.files.items():
+        for field_name, f in self.request.files.items():
             tmp_file_path = _util.mk_tmp_file()[1]
             f.save(tmp_file_path)
 

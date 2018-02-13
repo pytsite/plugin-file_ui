@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 1.3 (2018-02-14)
+
+New argument `skip_missing` added to `widget.FilesUpload`.
+
+
 ### 1.2.2 (2017-12-21)
 
 Init code refactored.

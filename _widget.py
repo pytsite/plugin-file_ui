@@ -1,16 +1,16 @@
 """PytSite File UI Plugin Widgets
 """
-from typing import Iterable as _Iterable
-from pytsite import tpl as _tpl, html as _html, router as _router
-from plugins import file as _file, widget as _widget, http_api as _http_api
-
 __author__ = 'Alexander Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
+from typing import List as _List, Union as _Union
+from pytsite import tpl as _tpl, html as _html, router as _router
+from plugins import file as _file, widget as _widget, http_api as _http_api
+
 
 class FilesUpload(_widget.Abstract):
-    """Files Upload Widget.
+    """Files Upload Widget
     """
 
     def __init__(self, uid: str, **kwargs):
@@ -31,6 +31,7 @@ class FilesUpload(_widget.Abstract):
         self._slot_css = kwargs.get('slot_css', 'col-xs-B-12 col-xs-6 col-md-3 col-lg-2')
         self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)
         self._dnd = False if self._max_files == 1 else kwargs.get('dnd', True)
+        self._skip_missing = kwargs.get('skip_missing', False)
 
         super().__init__(uid, **kwargs)
 
@@ -114,7 +115,7 @@ class FilesUpload(_widget.Abstract):
 
         return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
 
-    def set_val(self, value: _Iterable, **kwargs):
+    def set_val(self, value: _Union[list, tuple], **kwargs):
         """Set value of the widget
         """
         if value is None:
@@ -135,8 +136,12 @@ class FilesUpload(_widget.Abstract):
                 clean_val.append(val.uid)
             # Strings remain as is
             elif isinstance(val, str):
-                _file.get(val)  # Check if the file exists
-                clean_val.append(val)
+                try:
+                    _file.get(val)  # Check if the file exists
+                    clean_val.append(val)
+                except _file.error.FileNotFound as e:
+                    if not self._skip_missing:
+                        raise e
             else:
                 raise TypeError("String or file object expected, got '{}'".format(type(val)))
 
@@ -158,7 +163,7 @@ class FilesUpload(_widget.Abstract):
 
         super().set_val(clean_val, **kwargs)
 
-    def get_files(self) -> _Iterable[_file.model.AbstractFile]:
+    def get_files(self) -> _List[_file.model.AbstractFile]:
         """Get value of the widget as a list of file objects
         """
         value = self.get_val()
@@ -170,7 +175,7 @@ class FilesUpload(_widget.Abstract):
 
 
 class ImagesUpload(FilesUpload):
-    """Images Upload Widget.
+    """Images Upload Widget
     """
 
     def __init__(self, uid: str, **kwargs):

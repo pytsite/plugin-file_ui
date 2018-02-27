@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 1.3.2 (2018-02-27)
+
+Widget error fixed.
+
+
 ### 1.3.1 (2018-02-14)
 
 Init code refactored.

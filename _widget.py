@@ -38,6 +38,16 @@ class FilesUpload(_widget.Abstract):
         self._js_module = 'file_ui-widget-files-upload'
         self._css = ' '.join((self._css, 'widget-files-upload'))
 
+        self._data.update({
+            'url': _http_api.url('file_ui@post'),
+            'max_files': self._max_files,
+            'max_file_size': self._max_file_size,
+            'accept_files': self._accept_files,
+            'slot_css': self._slot_css,
+            'show_numbers': self._show_numbers,
+            'dnd': self._dnd,
+        })
+
     @property
     def accept_files(self) -> str:
         return self._accept_files
@@ -103,16 +113,6 @@ class FilesUpload(_widget.Abstract):
         self._dnd = value
 
     def _get_element(self, **kwargs) -> _html.Element:
-        self._data.update({
-            'url': _http_api.url('file_ui@post'),
-            'max_files': self._max_files,
-            'max_file_size': self._max_file_size,
-            'accept_files': self._accept_files,
-            'slot_css': self._slot_css,
-            'show_numbers': self._show_numbers,
-            'dnd': self._dnd,
-        })
-
         return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
 
     def set_val(self, value: _Union[list, tuple], **kwargs):

@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "1.3.2",
+  "version": "1.4",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -19,11 +19,12 @@
       "auth",
       "file",
       "font_awesome",
+      "form>=2.0",
       "js_load_image",
       "jquery",
       "jquery_ui",
       "http_api",
-      "widget"
+      "widget>=1.6"
     ]
   }
 }

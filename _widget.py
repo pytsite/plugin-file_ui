@@ -115,7 +115,7 @@ class FilesUpload(_widget.Abstract):
     def _get_element(self, **kwargs) -> _html.Element:
         return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
 
-    def set_val(self, value: _Union[list, tuple], **kwargs):
+    def set_val(self, value: _Union[list, tuple]):
         """Set value of the widget
         """
         if value is None:
@@ -149,10 +149,15 @@ class FilesUpload(_widget.Abstract):
         if self._max_files == 1:
             clean_val = clean_val[0] if clean_val else None
 
+        super().set_val(clean_val)
+
+    def form_submit(self, form_uid: str):
+        """Hook
+        """
         # Delete files which are has been removed from the widget on the browser's side,
         # ONLY if the form is not in validation mode
         to_delete = _router.request().inp.get(self._uid + '_to_delete')
-        if to_delete and kwargs.get('mode') not in ('init', 'validation'):
+        if to_delete:
             if isinstance(to_delete, str):
                 to_delete = [to_delete]
             for uid in to_delete:
@@ -160,8 +165,6 @@ class FilesUpload(_widget.Abstract):
                     _file.get(uid).delete()
                 except _file.error.FileNotFound:
                     pass
-
-        super().set_val(clean_val, **kwargs)
 
     def get_files(self) -> _List[_file.model.AbstractFile]:
         """Get value of the widget as a list of file objects

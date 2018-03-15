@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 1.4 (2018-03-15)
+
+Support for `form-2.0` and `widget-1.6`.
+
+
 ### 1.3.2 (2018-02-27)
 
 Widget error fixed.

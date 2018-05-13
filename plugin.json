@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "1.4",
+  "version": "1.5",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -13,7 +13,6 @@
     "url": "https://shepetko.com"
   },
   "requires": {
-    "packages": [],
     "plugins": [
       "assetman",
       "auth",
@@ -24,7 +23,7 @@
       "jquery",
       "jquery_ui",
       "http_api",
-      "widget>=1.6"
+      "widget>=2.0"
     ]
   }
 }

@@ -35,7 +35,7 @@ class FilesUpload(_widget.Abstract):
 
         super().__init__(uid, **kwargs)
 
-        self._js_module = 'file_ui-widget-files-upload'
+        self._js_modules.append('file_ui-widget-files-upload')
         self._css = ' '.join((self._css, 'widget-files-upload'))
 
         self._data.update({

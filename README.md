@@ -4,9 +4,14 @@
 ## Changelog
 
 
+### 1.5 (2018-05-13)
+
+Support of `widget-2.0`.
+
+
 ### 1.4 (2018-03-15)
 
-Support for `form-2.0` and `widget-1.6`.
+Support of `form-2.0` and `widget-1.6`.
 
 
 ### 1.3.2 (2018-02-27)

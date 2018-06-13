@@ -16,10 +16,6 @@ class FilesUpload(_widget.Abstract):
     def __init__(self, uid: str, **kwargs):
         """Init.
         """
-        self._model = kwargs.get('model')
-        if not self._model:
-            raise ValueError('Model is not specified.')
-
         self._max_files = int(kwargs.get('max_files', 1))
         if self._max_files < 1:
             self._max_files = 1
@@ -28,25 +24,16 @@ class FilesUpload(_widget.Abstract):
         self._accept_files = kwargs.get('accept_files', '*/*')
         self._add_btn_label = kwargs.get('add_btn_label', '')
         self._add_btn_icon = kwargs.get('add_btn_icon', 'fa fa-fw fa-plus')
-        self._slot_css = kwargs.get('slot_css', 'col-xs-B-12 col-xs-6 col-md-3 col-lg-2')
-        self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)
+        self._slot_css = kwargs.get('slot_css', 'col-3 col-xs-B-3 col-xs-3 col-md-2 col-lg-1')
+        self._show_numbers = kwargs.get('show_numbers', False)
         self._dnd = False if self._max_files == 1 else kwargs.get('dnd', True)
         self._skip_missing = kwargs.get('skip_missing', False)
+        self._preview_images = kwargs.get('preview_images', False)
 
         super().__init__(uid, **kwargs)
 
         self._js_modules.append('file_ui-widget-files-upload')
         self._css = ' '.join((self._css, 'widget-files-upload'))
-
-        self._data.update({
-            'url': _http_api.url('file_ui@post'),
-            'max_files': self._max_files,
-            'max_file_size': self._max_file_size,
-            'accept_files': self._accept_files,
-            'slot_css': self._slot_css,
-            'show_numbers': self._show_numbers,
-            'dnd': self._dnd,
-        })
 
     @property
     def accept_files(self) -> str:
@@ -112,7 +99,26 @@ class FilesUpload(_widget.Abstract):
     def dnd(self, value: bool):
         self._dnd = value
 
+    @property
+    def preview_images(self) -> bool:
+        return self._preview_images
+
+    @preview_images.setter
+    def preview_images(self, value: bool):
+        self._preview_images = value
+
     def _get_element(self, **kwargs) -> _html.Element:
+        self._data.update({
+            'url': _http_api.url('file_ui@post'),
+            'max_files': self._max_files,
+            'max_file_size': self._max_file_size,
+            'accept_files': self._accept_files,
+            'slot_css': self._slot_css,
+            'show_numbers': self._show_numbers,
+            'dnd': self._dnd,
+            'preview_images': self._preview_images
+        })
+
         return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
 
     def set_val(self, value: _Union[list, tuple]):
@@ -182,5 +188,9 @@ class ImagesUpload(FilesUpload):
     """
 
     def __init__(self, uid: str, **kwargs):
-        super().__init__(uid, model='image', accept_files='image/*', **kwargs)
+        super().__init__(uid, accept_files='image/*', **kwargs)
+
         self._add_btn_icon = 'fa fa-fw fa-camera'
+        self._slot_css = kwargs.get('slot_css', 'col-12 col-xs-B-12 col-xs-6 col-md-3 col-lg-2 col-xl-1')
+        self._preview_images = kwargs.get('preview_images', True)
+        self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)

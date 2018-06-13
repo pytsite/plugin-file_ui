@@ -1,13 +1,13 @@
 """PytSite File HTTP API Endpoints
 """
+__author__ = 'Alexander Shepetko'
+__email__ = 'a@shepetko.com'
+__license__ = 'MIT'
+
 from typing import List as _List
 from os import unlink as _unlink
 from pytsite import util as _util, routing as _routing
 from plugins import file as _file, auth as _auth
-
-__author__ = 'Alexander Shepetko'
-__email__ = 'a@shepetko.com'
-__license__ = 'MIT'
 
 
 class Post(_routing.Controller):
@@ -53,7 +53,7 @@ class Get(_routing.Controller):
             raise self.forbidden()
 
         try:
-            return _file.get(self.arg('uid')).as_jsonable(**dict(self.args))
+            return _file.get(self.arg('uid')).as_jsonable(**self.args)
 
         except _file.error.FileNotFound as e:
             raise self.not_found(str(e))

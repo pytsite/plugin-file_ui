@@ -3,7 +3,6 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
         var widgetEm = widget.em;
         var slotsEm = widgetEm.find('.slots');
         var widgetUid = widgetEm.data('uid');
-        var model = widgetEm.data('model');
         var addBtn = widgetEm.find('.add-button');
         var postUrl = widgetEm.data('url');
         var maxFiles = parseInt(widgetEm.data('maxFiles'));
@@ -17,6 +16,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
         var slotCss = widgetEm.data('slotCss');
         var showNumbers = widgetEm.data('showNumbers') === 'True';
         var dnd = widgetEm.data('dnd') === 'True';
+        var previewImages = widgetEm.data('previewImages') === 'True';
 
         if (acceptedFileTypes !== '*/*')
             acceptedFileTypes = acceptedFileTypes.split('/')[0];
@@ -53,13 +53,14 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
             return $(slot);
         }
 
-        function createSlot(uid, thumb_url) {
-            var slot = $('<div class="slot content sortable ' + slotCss + '" data-uid="' + uid + '">');
+        function createSlot(uid, fileUrl, thumbUrl, fileName) {
+            var slot = $('<div class="slot slot-content sortable ' + slotCss + '" data-uid="' + uid + '">');
             var inner = $('<div class="inner">');
 
             slot.append(inner);
-            inner.append($('<div class="thumb"><img class="img-responsive" src="{u}"></div>'.replace('{u}', thumb_url)));
-            inner.append($('<button type="button" class="btn btn-danger btn-xs btn-remove"><i class="fa fa-remove"></i></button>'));
+            inner.append($('<div class="thumb"><img class="img-responsive" src="' + thumbUrl + '" title="' + fileName + '"></div>'));
+            inner.append($('<a href="' + fileUrl + '" target="_blank" class="btn btn-default btn-xs btn-download" title="' + lang.t('plugins.file_ui@download_file') + '"><i class="fa fa-download"></i></a>'));
+            inner.append($('<button type="button" class="btn btn-danger btn-xs btn-remove" title="' + lang.t('plugins.file_ui@remove_file') + '"><i class="fa fa-remove"></i></button>'));
             if (showNumbers)
                 inner.append($('<span class="number">'));
             inner.append('<input type="hidden" name="' + widgetUid + '[]" value="' + uid + '">');
@@ -70,7 +71,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
         function renumberSlots() {
             var n = 1;
             filesCount = 0;
-            widgetEm.find('.slot.content').each(function () {
+            widgetEm.find('.slot-content').each(function () {
                 if (showNumbers)
                     $(this).find('.number').text(n++);
 
@@ -78,11 +79,11 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
             });
 
             if (filesCount >= maxFiles) {
-                addBtn.hide();
+                addBtn.addClass('hidden sr-only');
                 widgetEm.addClass('max-files-reached');
             }
             else {
-                addBtn.show();
+                addBtn.removeClass('hidden sr-only');
                 widgetEm.removeClass('max-files-reached');
             }
         }
@@ -108,7 +109,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
             renumberSlots();
 
             --filesCount;
-            addBtn.show();
+            addBtn.removeClass('hidden sr-only');
             widgetEm.removeClass('max-files-reached');
 
             sortableSetup();
@@ -139,7 +140,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
 
             if (filesCount > maxFiles) {
                 filesCount = maxFiles;
-                progressSlot.hide();
+                progressSlot.addClass('hidden sr-only');
                 alert(lang.t('plugins.file_ui@max_files_exceeded'));
 
                 return false;
@@ -155,8 +156,8 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
                     progressBar.css('width', '0');
                     progressBar.attr('aria-valuenow', '0');
                     progressBar.text('0%');
-                    progressSlot.show();
-                    addBtn.hide();
+                    progressSlot.removeClass('hidden sr-only');
+                    addBtn.addClass('hidden sr-only');
 
                     $(widget).trigger('fileUploadStart');
                 },
@@ -174,16 +175,16 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
                 }
             }).success(function (data) {
                 $.each(data, function (k, v) {
-                    httpApi.get('file' + '/' + v['uid']).done(function (r) {
-                        progressSlot.hide();
-                        appendSlot(createSlot(r['uid'], r['thumb_url']));
+                    httpApi.get('file' + '/' + v['uid'], {preview_image: previewImages}).done(function (r) {
+                        progressSlot.addClass('hidden sr-only');
+                        appendSlot(createSlot(r['uid'], r['url'], r['thumb_url'], r['name']));
                         $(widget).trigger('fileUploadSuccess', [v]);
                     });
                 });
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 --filesCount;
-                progressSlot.hide();
-                addBtn.show();
+                progressSlot.addClass('hidden sr-only');
+                addBtn.removeClass('hidden sr-only');
                 widgetEm.removeClass('max-files-reached');
                 $(widget).trigger('fileUploadFail');
                 alert(errorThrown);
@@ -209,7 +210,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
         widget.clear = function (confirmDelete) {
             fileInput.val('');
 
-            slotsEm.find('.slot.content').each(function () {
+            slotsEm.find('.slot-content').each(function () {
                 removeSlot(this, confirmDelete);
             });
 
@@ -217,7 +218,7 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
         };
 
         // Initial setup of existing slots
-        progressSlot.removeClass('hidden').hide();
+        progressSlot.addClass('hidden sr-only');
         widgetEm.find('.slot').each(function () {
             setupSlot(this);
         });

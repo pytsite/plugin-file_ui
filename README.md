@@ -4,6 +4,12 @@
 ## Changelog
 
 
+### 1.6 (2018-06-13)
+
+- Support of `file-1.5`.
+- Upload widgets fixed and improved.
+
+
 ### 1.5 (2018-05-13)
 
 Support of `widget-2.0`.

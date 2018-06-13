@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "1.5",
+  "version": "1.6",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -16,7 +16,7 @@
     "plugins": [
       "assetman",
       "auth",
-      "file",
+      "file>=1.5",
       "font_awesome",
       "form>=2.0",
       "js_load_image",

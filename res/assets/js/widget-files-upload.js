@@ -58,9 +58,9 @@ define(['jquery', 'assetman', 'http-api', 'lang', 'load-image', 'jquery-ui'], fu
             var inner = $('<div class="inner">');
 
             slot.append(inner);
-            inner.append($('<div class="thumb"><img class="img-responsive" src="' + thumbUrl + '" title="' + fileName + '"></div>'));
-            inner.append($('<a href="' + fileUrl + '" target="_blank" class="btn btn-default btn-xs btn-download" title="' + lang.t('plugins.file_ui@download_file') + '"><i class="fa fa-download"></i></a>'));
-            inner.append($('<button type="button" class="btn btn-danger btn-xs btn-remove" title="' + lang.t('plugins.file_ui@remove_file') + '"><i class="fa fa-remove"></i></button>'));
+            inner.append($('<div class="thumb"><img class="img-responsive img-fluid" src="' + thumbUrl + '" title="' + fileName + '"></div>'));
+            inner.append($('<a href="' + fileUrl + '" target="_blank" class="btn btn-default btn-light btn-sm btn-download" title="' + lang.t('plugins.file_ui@download_file') + '"><i class="fa fas fa-fw fa-download"></i></a>'));
+            inner.append($('<button type="button" class="btn btn-danger btn-sm btn-remove" title="' + lang.t('plugins.file_ui@remove_file') + '"><i class="fa fas fa-fw fa-remove fa-times"></i></button>'));
             if (showNumbers)
                 inner.append($('<span class="number">'));
             inner.append('<input type="hidden" name="' + widgetUid + '[]" value="' + uid + '">');

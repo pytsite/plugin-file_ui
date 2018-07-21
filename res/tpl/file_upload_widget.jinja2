@@ -4,9 +4,9 @@
         {% for item in widget.get_files() %}
             <div class="slot slot-content sortable {{ widget.slot_css }}" data-uid="{{ item.uid }}">
                 <div class="inner">
-                    <div class="thumb" title="{{ item.name }}"><img class="img-responsive" src="{{ item.get_thumb_url(preview_image=widget.preview_images) }}"></div>
-                    <a href="{{ item.url }}" target="_blank" class="btn btn-default btn-xs btn-download"  title="{{ t('file_ui@download_file') }}"><i class="fa fa-download"></i></a>
-                    <button type="button" class="btn btn-danger btn-xs btn-remove" title="{{ t('file_ui@remove_file') }}"><i class="fa fa-remove"></i></button>
+                    <div class="thumb" title="{{ item.name }}"><img class="img-responsive img-fluid" src="{{ item.get_thumb_url(preview_image=widget.preview_images) }}"></div>
+                    <a href="{{ item.url }}" target="_blank" class="btn btn-default btn-light btn-sm btn-download"  title="{{ t('file_ui@download_file') }}"><i class="fa fas fa-fw fa-download"></i></a>
+                    <button type="button" class="btn btn-danger btn-sm btn-remove" title="{{ t('file_ui@remove_file') }}"><i class="fa fas fa-fw fa-remove fa-times"></i></button>
                     {% if widget.show_numbers %}
                         <span class="number"></span>
                     {% endif %}
@@ -24,7 +24,7 @@
 
         {# 'Add' button #}
         <div class="slot hidden sr-only add-button {{ widget.slot_css }}" style="display: inline-block">
-            <div class="btn btn btn-default">
+            <div class="btn btn-default btn-light">
                 <i class="{{ widget.add_btn_icon }}"></i> {{ widget.add_btn_label }}
                 <input type="file" multiple accept="{{ widget.accept_files }}">
             </div>

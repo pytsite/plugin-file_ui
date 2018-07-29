@@ -24,15 +24,18 @@ class FilesUpload(_widget.Abstract):
         self._accept_files = kwargs.get('accept_files', '*/*')
         self._add_btn_label = kwargs.get('add_btn_label', '')
         self._add_btn_icon = kwargs.get('add_btn_icon', 'fa fa-fw fa-plus')
-        self._slot_css = kwargs.get('slot_css', 'col-3 col-xs-B-3 col-xs-3 col-md-2 col-lg-1')
-        self._show_numbers = kwargs.get('show_numbers', False)
+        self._slot_css = kwargs.get('slot_css', '')
+        self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)
         self._dnd = False if self._max_files == 1 else kwargs.get('dnd', True)
         self._skip_missing = kwargs.get('skip_missing', False)
+        self._thumb_width = kwargs.get('thumb_width', 500)
+        self._thumb_height = kwargs.get('thumb_height', 500)
         self._preview_images = kwargs.get('preview_images', False)
 
         super().__init__(uid, **kwargs)
 
         self._js_modules.append('file_ui-widget-files-upload')
+        self._assets.append('file_ui@css/widget-files-upload.css')
         self._css = ' '.join((self._css, 'widget-files-upload'))
 
     @property
@@ -100,6 +103,22 @@ class FilesUpload(_widget.Abstract):
         self._dnd = value
 
     @property
+    def thumb_width(self) -> int:
+        return self._thumb_width
+
+    @thumb_width.setter
+    def thumb_width(self, value: int):
+        self._thumb_width = value
+
+    @property
+    def thumb_height(self) -> int:
+        return self._thumb_height
+
+    @thumb_height.setter
+    def thumb_height(self, value: int):
+        self._thumb_height = value
+
+    @property
     def preview_images(self) -> bool:
         return self._preview_images
 
@@ -116,7 +135,9 @@ class FilesUpload(_widget.Abstract):
             'slot_css': self._slot_css,
             'show_numbers': self._show_numbers,
             'dnd': self._dnd,
-            'preview_images': self._preview_images
+            'preview_images': self._preview_images,
+            'thumb_width': self._thumb_width,
+            'thumb_height': self._thumb_height,
         })
 
         return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
@@ -157,7 +178,7 @@ class FilesUpload(_widget.Abstract):
 
         super().set_val(clean_val)
 
-    def form_submit(self, form_uid: str):
+    def _on_form_submit(self, form_uid: str):
         """Hook
         """
         # Delete files which are has been removed from the widget on the browser's side,
@@ -188,9 +209,7 @@ class ImagesUpload(FilesUpload):
     """
 
     def __init__(self, uid: str, **kwargs):
-        super().__init__(uid, accept_files='image/*', **kwargs)
+        kwargs.setdefault('add_btn_icon', 'fa fa-fw fa-camera')
+        kwargs.setdefault('preview_images', True)
 
-        self._add_btn_icon = 'fa fa-fw fa-camera'
-        self._slot_css = kwargs.get('slot_css', 'col-12 col-xs-B-12 col-xs-6 col-md-3 col-lg-2 col-xl-1')
-        self._preview_images = kwargs.get('preview_images', True)
-        self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)
+        super().__init__(uid, accept_files='image/*', **kwargs)

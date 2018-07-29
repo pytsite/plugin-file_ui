@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "1.6.1",
+  "version": "1.7",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -23,7 +23,7 @@
       "jquery",
       "jquery_ui",
       "http_api",
-      "widget>=2.0"
+      "widget>=2.4"
     ]
   }
 }

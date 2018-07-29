@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 1.7 (2018-07-29)
+
+Widgets refactored.
+
+
 ### 1.6.1 (2018-07-21)
 
 Support of Twitter Bootstrap 4 fixed.

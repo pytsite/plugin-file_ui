@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.0 (2018-10-08)
+
+Support of `pytsite-8.x`.
+
+
 ### 1.7 (2018-07-29)
 
 Widgets refactored.

@@ -1,0 +1,8 @@
+{
+  "name": "@pytsite/file-ui",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "3.x",
+    "jquery-ui-bundle": "1.x"
+  }
+}

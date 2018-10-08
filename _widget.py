@@ -1,6 +1,6 @@
 """PytSite File UI Plugin Widgets
 """
-__author__ = 'Alexander Shepetko'
+__author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
@@ -34,8 +34,6 @@ class FilesUpload(_widget.Abstract):
 
         super().__init__(uid, **kwargs)
 
-        self._js_modules.append('file_ui-widget-files-upload')
-        self._assets.append('file_ui@css/widget-files-upload.css')
         self._css = ' '.join((self._css, 'widget-files-upload'))
 
     @property

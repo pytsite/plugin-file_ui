@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "2.0",
+  "version": "2.1",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -13,9 +13,9 @@
     "url": "https://shepetko.com"
   },
   "requires": {
-    "pytsite": "8.x",
+    "pytsite": ">=8",
     "plugins": {
-      "assetman": "3.x",
+      "assetman": "4.x",
       "auth": "3.x",
       "file": "1.x",
       "form": "5.x",

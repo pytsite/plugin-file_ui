@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "2.1",
+  "version": "2.2",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -15,12 +15,12 @@
   "requires": {
     "pytsite": ">=8",
     "plugins": {
-      "assetman": "4.x",
+      "assetman": "5.x",
       "auth": "3.x",
       "file": "1.x",
       "form": "5.x",
       "http_api": "3.x",
-      "widget": "3.x"
+      "widget": "4.x"
     }
   }
 }

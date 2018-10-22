@@ -1,9 +1,11 @@
-const $ = require('jquery');
-const httpApi = require('@pytsite/http-api');
 import 'jquery-ui-bundle';
 import './widget.scss'
+import setupWidget from '@pytsite/widget';
+import $ from 'jquery';
+import {lang} from '@pytsite/assetman';
+import httpApi from '@pytsite/http-api';
 
-require('@pytsite/widget').onWidgetLoad('plugins.file_ui._widget.FilesUpload', (widget) => {
+setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
     const widgetEm = widget.em;
     const slotsEm = widgetEm.find('.slots');
     const widgetUid = widgetEm.data('uid');

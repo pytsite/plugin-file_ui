@@ -5,7 +5,7 @@ __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
 from typing import List as _List, Union as _Union
-from pytsite import tpl as _tpl, html as _html, router as _router
+from pytsite import tpl as _tpl, html as _html, http as _http
 from plugins import file as _file, widget as _widget, http_api as _http_api
 
 
@@ -176,12 +176,12 @@ class FilesUpload(_widget.Abstract):
 
         super().set_val(clean_val)
 
-    def _on_form_submit(self, form_uid: str):
+    def _on_form_submit(self, request: _http.Request):
         """Hook
         """
         # Delete files which are has been removed from the widget on the browser's side,
         # ONLY if the form is not in validation mode
-        to_delete = _router.request().inp.get(self._uid + '_to_delete')
+        to_delete = request.inp.get(self._uid + '_to_delete')
         if to_delete:
             if isinstance(to_delete, str):
                 to_delete = [to_delete]

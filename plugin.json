@@ -1,6 +1,6 @@
 {
   "name": "file_ui",
-  "version": "2.2",
+  "version": "2.3",
   "description": {
     "en": "File UI",
     "ru": "File UI",
@@ -20,7 +20,7 @@
       "file": "1.x",
       "form": "5.x",
       "http_api": "3.x",
-      "widget": "4.x"
+      "widget": ">=4.4<5"
     }
   }
 }

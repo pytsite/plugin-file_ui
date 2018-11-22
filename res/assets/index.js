@@ -193,13 +193,13 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
                     thumb_height: thumbHeight,
                 };
 
-                httpApi.get('file' + '/' + v['uid'], data).done(function (r) {
+                httpApi.get('file' + '/' + v['uid'], data).then(r => {
                     progressSlot.css('display', 'none');
                     appendSlot(createSlot(r['uid'], r['url'], r['thumb_url'], r['name']));
                     $(widget).trigger('fileUploadSuccess', [v]);
                 });
             });
-        }).fail(function (jqXHR, textStatus, errorThrown) {
+        }).catch((jqXHR, textStatus, errorThrown) => {
             --filesCount;
             progressSlot.css('display', 'none');
             addBtn.css('display', 'flex');

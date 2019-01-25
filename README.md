@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.4.1 (2019-01-25)
+
+CKEditor's response fixed.
+
+
 ### 2.4 (2018-11-22)
 
 Support of `http_api-3.3`.

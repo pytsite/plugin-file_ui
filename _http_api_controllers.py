@@ -4,9 +4,8 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from typing import List as _List
 from os import unlink as _unlink
-from pytsite import util as _util, routing as _routing
+from pytsite import util as _util, routing as _routing, http as _http
 from plugins import file as _file, auth as _auth
 
 
@@ -14,7 +13,7 @@ class Post(_routing.Controller):
     """Upload a file
     """
 
-    def exec(self) -> _List[str]:
+    def exec(self):
         if _auth.get_current_user().is_anonymous:
             raise self.forbidden()
 
@@ -39,7 +38,7 @@ class Post(_routing.Controller):
                 .format(self.arg('CKEditorFuncNum'), _file.get(r[0]['uid']).get_url())
 
             # CKEditor requires such response format
-            r = '<script type="text/javascript">{}</script>'.format(script)
+            r = _http.Response('<script type="text/javascript">{}</script>'.format(script), mimetype='text/html')
 
         return r
 

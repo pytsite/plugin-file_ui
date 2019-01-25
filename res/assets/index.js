@@ -35,8 +35,7 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
 
         if (slotsEm.hasClass('ui-sortable')) {
             slotsEm.sortable('refresh');
-        }
-        else {
+        } else {
             slotsEm.sortable({
                 containment: 'parent',
                 cursor: 'move',
@@ -59,21 +58,22 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
         return $(slot);
     }
 
-    function createSlot(uid, fileUrl, thumbUrl, fileName) {
+    function createSlot(uid, fileUrl, thumbUrl, fileName, fileSize) {
         var slot = $('<div class="slot slot-content sortable ' + slotCss + '" data-uid="' + uid + '">');
         var inner = $('<div class="inner">');
         var actions = $('<div class="actions">');
 
         slot.append(inner);
 
+        if (showNumbers)
+            inner.append($('<div class="number">'));
+
         inner.append($('<div class="thumb" style="background-image: url(' + thumbUrl + ')"><img class="img-responsive img-fluid" src="' + thumbUrl + '" title="' + fileName + '"></div>'));
+        inner.append($('<div class="filename">' + fileName + '</div>'));
+        inner.append($('<div class="filesize">' + Math.round(fileSize / 1024) + ' KB</div>'));
         inner.append('<input type="hidden" name="' + widgetUid + '[]" value="' + uid + '">');
 
         inner.append(actions);
-        if (showNumbers) {
-            actions.append($('<span class="number">'));
-            actions.append($('<span class="spacer">'));
-        }
         actions.append($('<a href="' + fileUrl + '" target="_blank" class="btn btn-default btn-light btn-sm btn-download" title="' + lang.t('plugins.file_ui@download_file') + '"><i class="fa fas fa-fw fa-download"></i></a>'));
         actions.append($('<button type="button" class="btn btn-danger btn-sm btn-remove" title="' + lang.t('plugins.file_ui@remove_file') + '"><i class="fa fas fa-fw fa-remove fa-times"></i></button>'));
 
@@ -93,8 +93,7 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
         if (filesCount >= maxFiles) {
             addBtn.css('display', 'none');
             widgetEm.addClass('max-files-reached');
-        }
-        else {
+        } else {
             addBtn.css('display', 'flex');
             widgetEm.removeClass('max-files-reached');
         }
@@ -195,7 +194,7 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
 
                 httpApi.get('file' + '/' + v['uid'], data).then(r => {
                     progressSlot.css('display', 'none');
-                    appendSlot(createSlot(r['uid'], r['url'], r['thumb_url'], r['name']));
+                    appendSlot(createSlot(r['uid'], r['url'], r['thumb_url'], r['name'], r['length']));
                     $(widget).trigger('fileUploadSuccess', [v]);
                 });
             });

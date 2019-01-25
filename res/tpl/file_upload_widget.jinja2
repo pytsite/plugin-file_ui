@@ -4,16 +4,30 @@
         {% for item in widget.get_files() %}
             <div class="slot slot-content sortable {{ widget.slot_css }}" data-uid="{{ item.uid }}">
                 <div class="inner">
-                    <div class="thumb" title="{{ item.name }}" style="background-image: url({{ item.get_thumb_url(thumb_width=widget.thumb_width, thumb_height=widget.thumb_height, preview_image=widget.preview_images) }})">
-                        <img class="img-responsive img-fluid" src="{{ item.get_thumb_url(thumb_width=widget.thumb_width, thumb_height=widget.thumb_height, preview_image=widget.preview_images) }}">
+                    {% if widget.show_numbers %}
+                        <div class="number"></div>
+                    {% endif %}
+
+                    <div class="thumb" title="{{ item.name }}"
+                         style="background-image: url({{ item.get_thumb_url(thumb_width=widget.thumb_width, thumb_height=widget.thumb_height, preview_image=widget.preview_images) }})">
+                        <img class="img-responsive img-fluid"
+                             src="{{ item.get_thumb_url(thumb_width=widget.thumb_width, thumb_height=widget.thumb_height, preview_image=widget.preview_images) }}">
                     </div>
+
+                    <div class="filename">
+                        {{ item.name }}
+                    </div>
+
+                    <div class="filesize">
+                        {{ item.length // 1024 }} KB
+                    </div>
+
                     <div class="actions">
-                        {% if widget.show_numbers %}
-                            <span class="number"></span>
-                            <span class="spacer"></span>
-                        {% endif %}
-                        <a href="{{ item.url }}" target="_blank" class="btn btn-default btn-light btn-sm btn-download"  title="{{ t('file_ui@download_file') }}"><i class="fa fas fa-fw fa-download"></i></a>
-                        <button type="button" class="btn btn-danger btn-sm btn-remove" title="{{ t('file_ui@remove_file') }}"><i class="fa fas fa-fw fa-remove fa-times"></i></button>
+                        <a href="{{ item.url }}" target="_blank" class="btn btn-default btn-light btn-sm btn-download"
+                           title="{{ t('file_ui@download_file') }}"><i class="fa fas fa-fw fa-download"></i></a>
+                        <button type="button" class="btn btn-danger btn-sm btn-remove"
+                                title="{{ t('file_ui@remove_file') }}"><i class="fa fas fa-fw fa-remove fa-times"></i>
+                        </button>
                     </div>
                     <input type="hidden" name="{{ widget.uid }}[]" value="{{ item.uid }}">
                 </div>

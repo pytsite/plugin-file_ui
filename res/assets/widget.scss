@@ -3,7 +3,34 @@
 
   .slots {
     display: flex;
-    flex-wrap: wrap;
+  }
+
+  input {
+    opacity: 0;
+    font-size: 0;
+    cursor: pointer;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+
+  .add-button {
+    cursor: pointer;
+    font-size: 2em;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .actions {
+    white-space: nowrap;
+  }
+
+  &.layout-thumbs {
+    .slots {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
     .slot {
       margin-bottom: 1em;
@@ -51,6 +78,20 @@
         }
       }
 
+      .filename, .filesize {
+        display: none;
+      }
+
+      .number {
+        position: absolute;
+        background: #fff;
+        padding: 3px 8px;
+        left: 0;
+        top: 0;
+        font-size: 12px;
+        margin: 1px;
+      }
+
       .actions {
         position: absolute;
         visibility: hidden;
@@ -59,31 +100,17 @@
         display: flex;
         justify-content: flex-end;
 
-        .spacer {
-          flex-grow: 1;
-        }
-
         a, button {
           margin: 1px .1em;
         }
-      }
-
-      .number {
-        background: #fff;
-        padding: 3px 8px;
-        left: 0;
-        font-size: 12px;
-        margin: 1px;
       }
     }
 
     .add-button {
       display: flex;
-      cursor: pointer;
       align-items: center;
       justify-content: center;
       border: 1px dashed lightgray;
-      font-size: 2em;
 
       .sizer {
         width: 100%;
@@ -96,13 +123,60 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
+    }
+  }
 
-      input {
-        opacity: 0;
-        cursor: pointer;
-        height: 100%;
-        width: 100%;
-        position: absolute;
+  &.layout-list {
+    .slots {
+      flex-direction: column;
+    }
+
+    .slot {
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid #ddd;
+      height: 64px;
+
+      &:hover {
+        background: #f6f6f6;
+      }
+
+      .inner {
+        display: flex;
+        align-items: center;
+      }
+
+      .number {
+        margin-right: .75em;
+      }
+
+      .filename {
+        flex-grow: 1;
+        margin-right: .75em;
+      }
+
+      .filesize {
+        margin-right: .75em;
+      }
+
+      .thumb {
+        margin-right: .75em;
+        min-width: 50px;
+        width: 50px;
+        height: 50px;
+        min-height: 50px;
+      }
+
+      &.progress {
+        height: 35px;
+      }
+
+      &.add-button {
+        border-bottom: none;
+
+        .sizer {
+          width: .75em;
+        }
       }
     }
   }

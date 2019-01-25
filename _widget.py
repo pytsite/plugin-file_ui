@@ -28,13 +28,14 @@ class FilesUpload(_widget.Abstract):
         self._show_numbers = False if self._max_files == 1 else kwargs.get('show_numbers', True)
         self._dnd = False if self._max_files == 1 else kwargs.get('dnd', True)
         self._skip_missing = kwargs.get('skip_missing', False)
-        self._thumb_width = kwargs.get('thumb_width', 500)
-        self._thumb_height = kwargs.get('thumb_height', 500)
+        self._layout = kwargs.get('layout', 'thumbs')
+        self._thumb_width = kwargs.get('thumb_width', 500 if self._layout == 'thumbs' else 50)
+        self._thumb_height = kwargs.get('thumb_height', 500 if self._layout == 'thumbs' else 50)
         self._preview_images = kwargs.get('preview_images', False)
 
         super().__init__(uid, **kwargs)
 
-        self._css = ' '.join((self._css, 'widget-files-upload'))
+        self._css += ' widget-files-upload'
 
     @property
     def accept_files(self) -> str:
@@ -124,7 +125,17 @@ class FilesUpload(_widget.Abstract):
     def preview_images(self, value: bool):
         self._preview_images = value
 
+    @property
+    def layout(self) -> str:
+        return self._layout
+
+    @layout.setter
+    def layout(self, value: str):
+        self._layout = value
+
     def _get_element(self, **kwargs) -> _html.Element:
+        self._css += ' layout-{}'.format(self._layout)
+
         self._data.update({
             'url': _http_api.url('file_ui@post'),
             'max_files': self._max_files,

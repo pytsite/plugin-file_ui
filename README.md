@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.5.1 (2019-03-21)
+
+CSS fix.
+
+
 ### 2.5 (2019-01-25)
 
 New `widget.FilesUpload.layout` property.

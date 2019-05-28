@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.5.2 (2019-05-28)
+
+Missing usage of `enabled` arg fixed in `widget.FilesUpload`.
+
+
 ### 2.5.1 (2019-03-21)
 
 CSS fix.

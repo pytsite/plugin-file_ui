@@ -9,6 +9,7 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
     const widgetEm = widget.em;
     const slotsEm = widgetEm.find('.slots');
     const widgetUid = widgetEm.data('uid');
+    const isEnabled = widgetEm.data('enabled') === 'True';
     const addBtn = widgetEm.find('.add-button');
     const postUrl = widgetEm.data('url');
     const maxFiles = parseInt(widgetEm.data('maxFiles'));
@@ -241,5 +242,13 @@ setupWidget('plugins.file_ui._widget.FilesUpload', widget => {
     });
 
     renumberSlots();
-    sortableSetup();
+
+    if (isEnabled) {
+        sortableSetup();
+    }
+    else {
+        addBtn.remove();
+        fileInput.remove();
+    }
+
 });

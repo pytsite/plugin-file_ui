@@ -25,9 +25,12 @@
                     <div class="actions">
                         <a href="{{ item.url }}" target="_blank" class="btn btn-default btn-light btn-sm btn-download"
                            title="{{ t('file_ui@download_file') }}"><i class="fa fas fa-fw fa-download"></i></a>
-                        <button type="button" class="btn btn-danger btn-sm btn-remove"
-                                title="{{ t('file_ui@remove_file') }}"><i class="fa fas fa-fw fa-remove fa-times"></i>
-                        </button>
+
+                        {% if widget.enabled %}
+                            <button type="button" class="btn btn-danger btn-sm btn-remove"
+                                    title="{{ t('file_ui@remove_file') }}"><i class="fa fas fa-fw fa-remove fa-times"></i>
+                            </button>
+                        {% endif %}
                     </div>
                     <input type="hidden" name="{{ widget.uid }}[]" value="{{ item.uid }}">
                 </div>

@@ -4,6 +4,11 @@
 ## Changelog
 
 
+### 2.6 (2019-07-12)
+
+Support of `pytsite-9.0`.
+
+
 ### 2.5.2 (2019-05-28)
 
 Missing usage of `enabled` arg fixed in `widget.FilesUpload`.

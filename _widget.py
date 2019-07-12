@@ -4,12 +4,13 @@ __author__ = 'Oleksandr Shepetko'
 __email__ = 'a@shepetko.com'
 __license__ = 'MIT'
 
-from typing import List as _List, Union as _Union
-from pytsite import tpl as _tpl, html as _html, http as _http
-from plugins import file as _file, widget as _widget, http_api as _http_api
+import htmler
+from typing import List, Union
+from pytsite import tpl, http
+from plugins import file, widget, http_api
 
 
-class FilesUpload(_widget.Abstract):
+class FilesUpload(widget.Abstract):
     """Files Upload Widget
     """
 
@@ -133,11 +134,11 @@ class FilesUpload(_widget.Abstract):
     def layout(self, value: str):
         self._layout = value
 
-    def _get_element(self, **kwargs) -> _html.Element:
+    def _get_element(self, **kwargs) -> htmler.Element:
         self._css += ' layout-{}'.format(self._layout)
 
         self._data.update({
-            'url': _http_api.url('file_ui@post'),
+            'url': http_api.url('file_ui@post'),
             'max_files': self._max_files,
             'max_file_size': self._max_file_size,
             'accept_files': self._accept_files,
@@ -149,9 +150,9 @@ class FilesUpload(_widget.Abstract):
             'thumb_height': self._thumb_height,
         })
 
-        return _html.TagLessElement(_tpl.render('file_ui@file_upload_widget', {'widget': self}))
+        return htmler.TagLessElement(tpl.render('file_ui@file_upload_widget', {'widget': self}))
 
-    def set_val(self, value: _Union[list, tuple]):
+    def set_val(self, value: Union[list, tuple]):
         """Set value of the widget
         """
         if value is None:
@@ -168,14 +169,14 @@ class FilesUpload(_widget.Abstract):
             if not val:
                 continue
             # Files object convert to string UIDs
-            elif isinstance(val, _file.model.AbstractFile):
+            elif isinstance(val, file.model.AbstractFile):
                 clean_val.append(val.uid)
             # Strings remain as is
             elif isinstance(val, str):
                 try:
-                    _file.get(val)  # Check if the file exists
+                    file.get(val)  # Check if the file exists
                     clean_val.append(val)
-                except _file.error.FileNotFound as e:
+                except file.error.FileNotFound as e:
                     if not self._skip_missing:
                         raise e
             else:
@@ -187,7 +188,7 @@ class FilesUpload(_widget.Abstract):
 
         super().set_val(clean_val)
 
-    def _on_form_submit(self, request: _http.Request):
+    def _on_form_submit(self, request: http.Request):
         """Hook
         """
         # Delete files which are has been removed from the widget on the browser's side,
@@ -198,11 +199,11 @@ class FilesUpload(_widget.Abstract):
                 to_delete = [to_delete]
             for uid in to_delete:
                 try:
-                    _file.get(uid).delete()
-                except _file.error.FileNotFound:
+                    file.get(uid).delete()
+                except file.error.FileNotFound:
                     pass
 
-    def get_files(self) -> _List[_file.model.AbstractFile]:
+    def get_files(self) -> List[file.model.AbstractFile]:
         """Get value of the widget as a list of file objects
         """
         value = self.get_val()
@@ -210,7 +211,7 @@ class FilesUpload(_widget.Abstract):
         if not isinstance(value, (list, tuple)):
             value = [value] if value else []
 
-        return [_file.get(fid) for fid in value]
+        return [file.get(fid) for fid in value]
 
 
 class ImagesUpload(FilesUpload):
